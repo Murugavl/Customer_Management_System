@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Customers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="container mx-auto p-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">All Customers</h1>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto border-collapse">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-center">ID</th>
+                            <th class="px-6 py-3 text-center">Name</th>
+                            <th class="px-6 py-3 text-center">Phone</th>
+                            <th class="px-6 py-3 text-center">Amount Received</th>
+                            <th class="px-6 py-3 text-center">Balance</th>
+                            <th class="px-6 py-3 text-center">Address</th>
+                            <th class="px-6 py-3 text-center">Model</th>
+                            <th class="px-6 py-3 text-center">Update Amount</th>
+                            <th class="px-6 py-3 text-center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-800">
+                        {% for customer in customers %}
+                        <tr class="border-b hover:bg-gray-100">
+                            <td class="px-6 py-4 text-center">{{ customer['Id'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Name'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Ph.no'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Amount_Received'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Balance_Amount'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Address'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">{{ customer['Model'] | upper }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="{{ url_for('update_amount', customer_id=customer['Id']) }}" 
+                                    class="bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out">
+                                    Update
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <form action="{{ url_for('delete_customer', customer_id=customer['Id']) }}" method="POST" style="display:inline;">
+                                    <button type="submit" 
+                                        class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 text-center">
+                <a href="{{ url_for('home') }}" class="text-blue-600 hover:text-blue-800">
+                    Go back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

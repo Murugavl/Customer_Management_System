@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Amount</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="container mx-auto p-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                Update Amount for {{ customer['Name'] }}
+            </h1>
+
+            <form method="POST" class="space-y-4">
+                <div>
+                    <label for="new_amount" class="block text-lg font-medium text-gray-700">Enter Amount:</label>
+                    <input type="number" name="new_amount" required
+                        class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="flex justify-center">
+                    <button type="submit"
+                        class="mt-6 px-6 py-3 bg-blue-600 text-white text-lg rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                        Update Amount
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <a href="{{ url_for('view_all_customers') }}" class="text-blue-600 hover:text-blue-800">
+                    Back to Customer List
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
