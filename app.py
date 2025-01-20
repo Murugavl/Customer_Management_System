@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Change this to a secure key
+app.secret_key = "CSM"  # Change this to a secure key
+
+# MongoDB Atlas connection URI
+MONGO_URI = "mongodb+srv://Murugavel:vvel2005@csm.nxtxr.mongodb.net/?retryWrites=true&w=majority&appName=CSM"
 
 # MongoDB setup
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(MONGO_URI)
 db = client["customer_management"]
 collection = db["customer"]
 
