@@ -18,7 +18,10 @@
 
     <div class="container mx-auto p-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
-            <!-- Navbar with search bar -->
+
+            
+
+            <!-- Navbar and Search Bar (as previously mentioned) -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">All Customers</h1>
 
@@ -31,6 +34,18 @@
                     </button>
                 </form>
             </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="space-y-4" id="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="p-4 rounded-lg 
+                                {% if category == 'success' %}bg-green-200 text-green-800{% elif category == 'danger' %}bg-red-200 text-red-800{% else %}bg-gray-200 text-gray-800{% endif %} flash-message opacity-100 transition-opacity duration-1000 ease-out">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
 
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto border-collapse">
@@ -84,6 +99,28 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript to hide flash messages after 3 seconds -->
+    <script>
+        window.onload = function() {
+            // Get all flash messages
+            const flashMessages = document.querySelectorAll('.flash-message');
+
+            flashMessages.forEach(function(message) {
+                // Set a timer to fade out the message after 3 seconds
+                setTimeout(function() {
+                    // Apply fade out animation
+                    message.classList.remove('opacity-100');
+                    message.classList.add('opacity-0');
+
+                    // Remove the message from the DOM after it fades out
+                    setTimeout(function() {
+                        message.remove();
+                    }, 1000); // 1 second after opacity transition ends
+                }, 3000); // 3 seconds before fade out starts
+            });
+        };
+    </script>
 
 </body>
 </html>

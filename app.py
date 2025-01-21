@@ -66,6 +66,7 @@ def create_customer():
         existing_customer = collection.find_one({"Id": customer_id})
         if existing_customer:
             flash(f"Customer ID {customer_id} already exists.", "danger")
+            return redirect(url_for("view_all_customers"))
         else:
             customer = {
                 "Id": customer_id,
