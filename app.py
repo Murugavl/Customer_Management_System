@@ -14,7 +14,7 @@ db = client["customer_management"]
 collection = db["customer"]
 
 users = {
-    "velmurugan": "velmurugan"  
+    "velmurugan": "5550"  
 }
 
 # Home route
