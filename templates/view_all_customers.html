@@ -18,7 +18,19 @@
 
     <div class="container mx-auto p-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">All Customers</h1>
+            <!-- Navbar with search bar -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">All Customers</h1>
+
+                <!-- Search Form -->
+                <form action="{{ url_for('view_all_customers') }}" method="GET" class="flex items-center">
+                    <input type="text" name="search" placeholder="Search by Name" 
+                        class="px-4 py-2 rounded-lg border border-gray-300" value="{{ search_query }}">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 ml-2 rounded-lg hover:bg-blue-700">
+                        Search
+                    </button>
+                </form>
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto border-collapse">

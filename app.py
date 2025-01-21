@@ -13,9 +13,8 @@ client = MongoClient(MONGO_URI)
 db = client["customer_management"]
 collection = db["customer"]
 
-# Dummy users for login, you can replace this with your actual users collection in MongoDB
 users = {
-    "admin": "password123"  # For example: admin password
+    "velmurugan": "velmurugan"  
 }
 
 # Home route
@@ -85,14 +84,24 @@ def create_customer():
     return render_template('create_customer.html')
 
 # View All Customers Route
-@app.route('/view_all_customers')
+@app.route('/view_all_customers', methods=['GET'])
 def view_all_customers():
     if 'username' not in session:
         flash("Please log in to access this page.", "danger")
         return redirect(url_for('login'))
 
-    customers = collection.find()
-    return render_template('view_all_customers.html', customers=customers)
+    # Get the search query from the URL parameters
+    search_query = request.args.get('search', '').strip()
+
+    if search_query:
+        # Query the database for customers whose name matches the search query
+        customers = collection.find({"Name": {"$regex": search_query, "$options": "i"}})
+    else:
+        # If no search query, show all customers
+        customers = collection.find()
+
+    return render_template('view_all_customers.html', customers=customers, search_query=search_query)
+
 
 # Update Amount Route
 @app.route('/update_amount/<customer_id>', methods=['GET', 'POST'])
