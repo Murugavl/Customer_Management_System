@@ -19,14 +19,14 @@
     <div class="container mx-auto p-8">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <!-- Navbar with search bar -->
-            <div class="flex justify-between items-center mb-6">
-                <h1 class="text-3xl font-bold text-gray-800">All Customers</h1>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">All Customers</h1>
 
                 <!-- Search Form -->
-                <form action="{{ url_for('view_all_customers') }}" method="GET" class="flex items-center">
+                <form action="{{ url_for('view_all_customers') }}" method="GET" class="flex flex-col sm:flex-row sm:items-center w-full sm:w-auto">
                     <input type="text" name="search" placeholder="Search by Name" 
-                        class="px-4 py-2 rounded-lg border border-gray-300" value="{{ search_query }}">
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 ml-2 rounded-lg hover:bg-blue-700">
+                        class="px-4 py-2 rounded-lg border border-gray-300 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-60" value="{{ search_query }}">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto">
                         Search
                     </button>
                 </form>
