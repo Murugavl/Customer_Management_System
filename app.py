@@ -145,5 +145,37 @@ def delete_customer(customer_id):
     flash(f"Customer {customer_id} has been deleted.", "success")
     return redirect(url_for('view_all_customers'))
 
+@app.route('/edit_customer/<customer_id>', methods=['GET', 'POST'])
+def edit_customer(customer_id):
+    if 'username' not in session:
+        flash("Please log in to access this page.", "danger")
+        return redirect(url_for('login'))
+
+    # Fetch the customer data from the database
+    customer = collection.find_one({"Id": customer_id})
+
+    if request.method == 'POST':
+        # Only update editable fields: Name, Phone, Address, Model
+        updated_name = request.form['name']
+        updated_phone = request.form['phone']
+        updated_address = request.form['address']
+        updated_model = request.form['model']
+
+        # Update the customer record
+        collection.update_one({"Id": customer_id}, {
+            "$set": {
+                "Name": updated_name,
+                "Ph.no": updated_phone,
+                "Address": updated_address,
+                "Model": updated_model
+            }
+        })
+
+        flash(f"Customer {updated_name} has been updated.", "success")
+        return redirect(url_for('view_all_customers'))
+
+    return render_template('edit_customer.html', customer=customer)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -59,6 +59,7 @@
                             <th class="px-6 py-3 text-center">Address</th>
                             <th class="px-6 py-3 text-center">Model</th>
                             <th class="px-6 py-3 text-center">Update Amount</th>
+                            <th class="px-6 py-3 text-center">Edit</th>
                             <th class="px-6 py-3 text-center">Delete</th>
                         </tr>
                     </thead>
@@ -76,6 +77,12 @@
                                 <a href="{{ url_for('update_amount', customer_id=customer['Id']) }}" 
                                     class="bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out">
                                     Update
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="{{ url_for('edit_customer', customer_id=customer['Id']) }}" 
+                                    class="bg-yellow-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition duration-300 ease-in-out">
+                                    Edit
                                 </a>
                             </td>
                             <td class="px-6 py-4 text-center">

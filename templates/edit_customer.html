@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Customer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/static/img/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Centered Container -->
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Edit Customer</h1>
+
+            <!-- Form -->
+            <form action="{{ url_for('edit_customer', customer_id=customer['Id']) }}" method="POST">
+                
+                <!-- Name Field -->
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Name</label>
+                    <input type="text" name="name" value="{{ customer['Name'] }}" class="px-4 py-2 w-full rounded-lg border border-gray-300" required>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700">Phone</label>
+                    <input type="text" name="phone" value="{{ customer['Ph.no'] }}" class="px-4 py-2 w-full rounded-lg border border-gray-300" required>
+                </div>
+
+                <!-- Address Field -->
+                <div class="mb-4">
+                    <label for="address" class="block text-gray-700">Address</label>
+                    <input type="text" name="address" value="{{ customer['Address'] }}" class="px-4 py-2 w-full rounded-lg border border-gray-300" required>
+                </div>
+
+                <!-- Model Field -->
+                <div class="mb-4">
+                    <label for="model" class="block text-gray-700">Model</label>
+                    <input type="text" name="model" value="{{ customer['Model'] }}" class="px-4 py-2 w-full rounded-lg border border-gray-300" required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Save Changes</button>
+                </div>
+            </form>
+
+            <!-- Cancel Link -->
+            <div class="mt-4 text-center">
+                <a href="{{ url_for('view_all_customers') }}" class="text-blue-600 hover:text-blue-800">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
