@@ -48,24 +48,6 @@ Ensure you have the following installed on your system:
 
 5. Open your browser and navigate to `http://127.0.0.1:5000` to access the application.
 
----
-
-## Project Structure
-
-```
-Flask-Customer_Management_System/
-├── app/
-│   ├── static/           # Static files (CSS, JS, images)
-│   ├── templates/        # HTML templates
-│   ├── create_customer.html 
-│   ├── home.html
-│   ├── login.html
-│   └── update_amount.html
-|   └── view_all_customers.html
-└── app.py                
-```
-
----
 
 ## Usage
 
