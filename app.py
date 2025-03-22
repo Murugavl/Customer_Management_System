@@ -1,20 +1,25 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from pymongo import MongoClient
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Use a secure random key for session security
 
-# MongoDB Atlas connection URI
-MONGO_URI = "mongodb+srv://Murugavel:vvel2005@csm.nxtxr.mongodb.net/?retryWrites=true&w=majority&appName=CSM"
+# MongoDB connection URI from environment variable
+MONGO_URI = os.getenv("MONGO_URI")
 
 # MongoDB setup
 client = MongoClient(MONGO_URI)
 db = client["customer_management"]
 collection = db["customer"]
 
+# Load users from environment variables (You can extend this later as needed)
 users = {
-    "velmurugan": "5550"  
+    "velmurugan": os.getenv("USER_VELMURUGAN_PASSWORD")  # This can be customized in the .env file
 }
 
 # Home route
@@ -103,7 +108,6 @@ def view_all_customers():
 
     return render_template('view_all_customers.html', customers=customers, search_query=search_query)
 
-
 # Update Amount Route
 @app.route('/update_amount/<customer_id>', methods=['GET', 'POST'])
 def update_amount(customer_id):
@@ -175,7 +179,6 @@ def edit_customer(customer_id):
         return redirect(url_for('view_all_customers'))
 
     return render_template('edit_customer.html', customer=customer)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

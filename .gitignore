@@ -1,0 +1,23 @@
+# Python-specific ignores
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# IDE/editor-specific files (e.g., VS Code, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Git-specific
+.git/
+
+# Virtualenvs and environments
+env/
+venv/
+ENV/
