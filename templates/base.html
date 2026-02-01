@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Customer Management{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#6366f1',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm glass-effect sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo / Brand -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('home') }}" class="flex-shrink-0 flex items-center gap-2 text-primary font-bold text-xl">
+                        <i class="fas fa-users-cog text-2xl"></i>
+                        <span>CMS</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden sm:flex items-center space-x-4">
+                    {% if 'username' in session %}
+                        <a href="{{ url_for('view_all_customers') }}" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-list mr-1"></i> Customers
+                        </a>
+                        <a href="{{ url_for('create_customer') }}" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <i class="fas fa-user-plus mr-1"></i> New
+                        </a>
+                        <a href="{{ url_for('logout') }}" class="ml-4 bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="bg-primary text-white hover:bg-secondary px-6 py-2 rounded-lg text-sm font-medium shadow-md transition-all">
+                            Login
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="max-w-4xl mx-auto mb-6 space-y-2">
+                    {% for category, message in messages %}
+                        <div class="flash-message p-4 rounded-lg flex items-center gap-3 shadow-sm border-l-4
+                            {% if category == 'success' %}bg-green-50 text-green-700 border-green-500
+                            {% elif category == 'danger' or category == 'error' %}bg-red-50 text-red-700 border-red-500
+                            {% else %}bg-blue-50 text-blue-700 border-blue-500{% endif %}">
+                            
+                            {% if category == 'success' %}<i class="fas fa-check-circle text-lg"></i>
+                            {% elif category == 'danger' or category == 'error' %}<i class="fas fa-exclamation-circle text-lg"></i>
+                            {% else %}<i class="fas fa-info-circle text-lg"></i>{% endif %}
+                            
+                            <span class="font-medium">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 text-sm">
+                &copy; {{ 2024 }} Customer Management System. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Auto-dismiss flash messages
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashes = document.querySelectorAll('.flash-message');
+            flashes.forEach(flash => {
+                setTimeout(() => {
+                    flash.style.opacity = '0';
+                    flash.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => flash.remove(), 500);
+                }, 4000);
+            });
+        });
+    </script>
+</body>
+</html>

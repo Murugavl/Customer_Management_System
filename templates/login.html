@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class="bg-gray-50 font-sans antialiased">
+{% extends "base.html" %}
 
-    <div class="flex items-center justify-center min-h-screen py-12 px-6 sm:px-12">
-        <div class="background-image p-8 rounded-xl shadow-lg w-full max-w-md">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Login</h2>
-            
-            <form method="POST">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700 text-sm font-medium">Username</label>
-                    <input type="text" class="mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" style="background-color: inherit; border-color: black;" id="username" name="username" placeholder="username" required>
-                </div>
+{% block title %}Login - CMS{% endblock %}
 
-                <div class="mb-6">
-                    <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
-                    <input type="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" style="background-color: inherit; border-color: black;" id="password" placeholder="password" name="password" required>
-                </div>
-
-                <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition duration-300 ease-in-out mb-4">
-                    Login
-                </button>
-            </form>
-            
+{% block content %}
+<div class="flex items-center justify-center min-h-[80vh]">
+    <div class="glass-effect bg-white w-full max-w-md p-8 rounded-2xl shadow-xl fade-in border border-gray-100">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mb-4">
+                <i class="fas fa-lock text-2xl text-primary"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Welcome Back</h2>
+            <p class="text-gray-500 mt-2">Please sign in to continue</p>
         </div>
-    </div>
 
-</body>
-</html>
+        <form method="POST" class="space-y-6">
+            <div>
+                <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-user text-gray-400"></i>
+                    </div>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-key text-gray-400"></i>
+                    </div>
+                    <input type="password" id="password" name="password" required placeholder="••••••••"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-xl hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
+                Sign In
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
