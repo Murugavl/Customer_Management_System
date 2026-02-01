@@ -4,40 +4,41 @@
 
 {% block content %}
 <div class="flex items-center justify-center min-h-[80vh]">
-    <div class="glass-effect bg-white w-full max-w-md p-8 rounded-2xl shadow-xl fade-in border border-gray-100">
+    <div class="glass-effect w-full max-w-md p-8 rounded-2xl shadow-xl fade-in">
         <div class="text-center mb-10">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 mb-4">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-900/30 mb-4">
                 <i class="fas fa-lock text-2xl text-primary"></i>
             </div>
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Welcome Back</h2>
-            <p class="text-gray-500 mt-2">Please sign in to continue</p>
+            <h2 class="text-3xl font-bold tracking-tight">Welcome Back</h2>
+            <p class="opacity-70 mt-2">Please sign in to continue</p>
         </div>
 
         <form method="POST" class="space-y-6">
             <div>
-                <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                <label for="username" class="block text-sm font-semibold mb-2 opacity-80">Username</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-user text-gray-400"></i>
                     </div>
                     <input type="text" id="username" name="username" required placeholder="Enter your username"
-                        class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        class="w-full pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 </div>
             </div>
 
             <div>
-                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                <label for="password" class="block text-sm font-semibold mb-2 opacity-80">Password</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-key text-gray-400"></i>
                     </div>
                     <input type="password" id="password" name="password" required placeholder="••••••••"
-                        class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        class="w-full pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 </div>
             </div>
 
             <button type="submit"
-                class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-xl hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
+                class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-xl hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
                 Sign In
             </button>
         </form>

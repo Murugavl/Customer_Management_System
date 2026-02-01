@@ -4,46 +4,46 @@
 
 {% block content %}
 <div class="flex justify-center">
-    <div class="glass-effect bg-white w-full max-w-md p-8 rounded-2xl shadow-xl border border-gray-100">
+    <div class="glass-effect w-full max-w-md p-8 rounded-2xl shadow-xl">
         <div class="mb-8 text-center">
             <div
-                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
+                class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 dark:text-green-400">
                 <i class="fas fa-hand-holding-usd text-2xl"></i>
             </div>
-            <h1 class="text-2xl font-bold text-gray-800">Update Payment</h1>
-            <p class="text-gray-500 mt-1">{{ customer['Name'] }}</p>
+            <h1 class="text-2xl font-bold">Update Payment</h1>
+            <p class="opacity-60 mt-1">{{ customer['Name'] }}</p>
         </div>
 
-        <div class="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
+        <div class="bg-gray-50/50 dark:bg-gray-700/30 rounded-xl p-4 mb-6 border border-white/10">
             <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-500 text-sm">Current Balance</span>
-                <span class="font-bold text-gray-800">{{ customer['Balance_Amount'] }}</span>
+                <span class="text-sm opacity-70">Current Balance</span>
+                <span class="font-bold">{{ customer['Balance_Amount'] }}</span>
             </div>
             <div class="flex justify-between items-center">
-                <span class="text-gray-500 text-sm">Total Received</span>
-                <span class="font-bold text-green-600">{{ customer['Amount_Received'] }}</span>
+                <span class="text-sm opacity-70">Total Received</span>
+                <span class="font-bold text-green-600 dark:text-green-400">{{ customer['Amount_Received'] }}</span>
             </div>
         </div>
 
         <form method="POST" class="space-y-6">
             <div>
-                <label for="new_amount" class="block text-sm font-medium text-gray-700 mb-2">Amount to Add</label>
+                <label for="new_amount" class="block text-sm font-medium mb-2 opacity-80">Amount to Add</label>
                 <div class="relative">
-                    <span class="absolute left-4 top-3.5 text-gray-400">₹</span>
+                    <span class="absolute left-4 top-3.5 text-green-600 dark:text-green-400">₹</span>
                     <input type="number" name="new_amount" required step="0.01"
-                        class="w-full pl-8 pr-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all outline-none text-lg font-medium text-green-700 placeholder-green-200"
+                        class="w-full pl-8 pr-4 py-3 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all outline-none text-lg font-medium text-green-700 dark:text-green-300 placeholder-green-200 dark:placeholder-green-800"
                         placeholder="0.00">
                 </div>
             </div>
 
             <button type="submit"
-                class="w-full bg-green-600 text-white py-3 rounded-xl font-semibold shadow-lg shadow-green-200 hover:bg-green-700 hover:-translate-y-0.5 transition-all duration-200">
+                class="w-full bg-green-600 text-white py-3 rounded-xl font-semibold shadow-lg shadow-green-500/30 hover:bg-green-700 hover:-translate-y-0.5 transition-all duration-200">
                 Update Balance
             </button>
 
             <div class="text-center mt-4">
                 <a href="{{ url_for('view_all_customers') }}"
-                    class="text-sm text-gray-500 hover:text-gray-800 transition-colors">
+                    class="text-sm opacity-60 hover:opacity-100 transition-opacity">
                     Back to customer list
                 </a>
             </div>

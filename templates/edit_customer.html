@@ -4,50 +4,49 @@
 
 {% block content %}
 <div class="flex justify-center">
-    <div class="glass-effect bg-white w-full max-w-xl p-8 rounded-2xl shadow-xl border border-gray-100">
+    <div class="glass-effect w-full max-w-xl p-8 rounded-2xl shadow-xl">
         <div class="mb-8 text-center">
-            <h1 class="text-2xl font-bold text-gray-800">Edit Customer Details</h1>
-            <p class="text-gray-500">Update information for {{ customer['Name'] }}</p>
+            <h1 class="text-2xl font-bold">Edit Customer Details</h1>
+            <p class="opacity-60">Update information for {{ customer['Name'] }}</p>
         </div>
 
         <form action="{{ url_for('edit_customer', customer_id=customer['Id']) }}" method="POST" class="space-y-5">
 
             <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <label for="name" class="block text-sm font-medium mb-2 opacity-80">Full Name</label>
                 <input type="text" name="name" value="{{ customer['Name'] }}" required
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+                    class="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <label for="phone" class="block text-sm font-medium mb-2 opacity-80">Phone Number</label>
                     <input type="text" name="phone" value="{{ customer['Ph.no'] }}" required
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+                        class="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 </div>
                 <div>
-                    <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Installation Date <span
-                            class="text-xs text-gray-400">(View Only)</span></label>
-                    <!-- WARNING: Keeping name='phone' as per original code requirement, though it appears to be a bug in original implementation. -->
+                    <label for="date" class="block text-sm font-medium mb-2 opacity-80">Installation Date <span
+                            class="text-xs opacity-50">(View Only)</span></label>
                     <input type="date" name="phone" value="{{ customer['Date'] }}" readonly
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-500 cursor-not-allowed outline-none">
+                        class="w-full px-4 py-3 rounded-xl bg-gray-100/50 dark:bg-gray-800/50 opacity-60 cursor-not-allowed outline-none">
                 </div>
             </div>
 
             <div>
-                <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                <label for="address" class="block text-sm font-medium mb-2 opacity-80">Address</label>
                 <input type="text" name="address" value="{{ customer['Address'] }}" required
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+                    class="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
             </div>
 
             <div>
-                <label for="model" class="block text-sm font-medium text-gray-700 mb-2">Model</label>
+                <label for="model" class="block text-sm font-medium mb-2 opacity-80">Model</label>
                 <input type="text" name="model" value="{{ customer['Model'] }}" required
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+                    class="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all">
             </div>
 
             <div class="pt-6 flex items-center justify-between">
                 <a href="{{ url_for('view_all_customers') }}"
-                    class="text-gray-500 hover:text-gray-700 font-medium transition-colors">Cancel</a>
+                    class="opacity-70 hover:opacity-100 font-medium transition-opacity">Cancel</a>
                 <button type="submit"
                     class="bg-primary text-white px-8 py-3 rounded-xl font-semibold shadow-md hover:bg-secondary hover:-translate-y-0.5 transition-all">
                     Save Changes

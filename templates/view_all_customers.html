@@ -3,20 +3,19 @@
 {% block title %}Customers - CMS{% endblock %}
 
 {% block content %}
-<div class="glass-effect bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+<div class="glass-effect rounded-2xl shadow-xl overflow-hidden">
     <!-- Header & Search -->
-    <div
-        class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white/50">
+    <div class="p-6 border-b border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800">Customer Directory</h1>
-            <p class="text-sm text-gray-500">Manage and view all customer records</p>
+            <h1 class="text-2xl font-bold">Customer Directory</h1>
+            <p class="text-sm opacity-60">Manage and view all customer records</p>
         </div>
 
         <form action="{{ url_for('view_all_customers') }}" method="GET"
             class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div class="relative w-full sm:w-64">
                 <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name..."
-                    class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                    class="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-search text-gray-400"></i>
                 </div>
@@ -27,7 +26,7 @@
             </button>
             {% if search_query %}
             <a href="{{ url_for('view_all_customers') }}"
-                class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
+                class="flex items-center justify-center px-4 py-2 border border-white/20 rounded-lg hover:bg-white/10 transition-colors">
                 Clear
             </a>
             {% endif %}
@@ -36,79 +35,71 @@
 
     <!-- Table -->
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="min-w-full text-left">
+            <thead class="bg-gray-50/50 dark:bg-gray-800/50">
                 <tr>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Name
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Name
                     </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Phone
                     </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">
                         Installed</th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Received</th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Balance
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Received
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Balance
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Address
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Model
                     </th>
                     <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Address
+                        class="px-6 py-4 text-center text-xs font-semibold opacity-70 uppercase tracking-wider">Actions
                     </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Model
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-100">
+            <tbody class="divide-y divide-white/10">
                 {% for customer in customers %}
-                <tr class="hover:bg-gray-50 transition-colors duration-200">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50/50">
+                <tr class="hover:bg-primary/5 transition-colors duration-200">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium opacity-90">
                         {{ customer['Id'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">
                         {{ customer['Name'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
                         {{ customer['Ph.no'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
                         {{ customer['Date'] }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 dark:text-green-400 font-medium">
                         {{ customer['Amount_Received'] | upper }}
                     </td>
                     <td
                         class="px-6 py-4 whitespace-nowrap text-sm font-medium
-                        {% if customer['Balance_Amount']|float > 0 %} text-red-600 {% else %} text-gray-600 {% endif %}">
+                        {% if customer['Balance_Amount']|float > 0 %} text-red-600 dark:text-red-400 {% else %} opacity-50 {% endif %}">
                         {{ customer['Balance_Amount'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-xs truncate"
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70 max-w-xs truncate"
                         title="{{ customer['Address'] | upper }}">
                         {{ customer['Address'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
                         {{ customer['Model'] | upper }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                         <div class="flex items-center justify-center space-x-2">
                             <!-- Update Amount -->
                             <a href="{{ url_for('update_amount', customer_id=customer['Id']) }}"
-                                class="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 p-2 rounded-lg transition-colors"
+                                class="text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 p-2 rounded-lg transition-colors"
                                 title="Update Payment">
                                 <i class="fas fa-money-bill-wave"></i>
                             </a>
 
                             <!-- Edit -->
                             <a href="{{ url_for('edit_customer', customer_id=customer['Id']) }}"
-                                class="text-amber-600 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors"
+                                class="text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 p-2 rounded-lg transition-colors"
                                 title="Edit Details">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -118,7 +109,7 @@
                                 onsubmit="return confirm('Are you sure you want to delete this customer?');"
                                 class="inline-block">
                                 <button type="submit"
-                                    class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition-colors"
+                                    class="text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
                                     title="Delete Record">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
@@ -128,9 +119,9 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="9" class="px-6 py-12 text-center text-gray-500">
+                    <td colspan="9" class="px-6 py-12 text-center opacity-70">
                         <div class="flex flex-col items-center justify-center">
-                            <i class="fas fa-users-slash text-4xl text-gray-300 mb-4"></i>
+                            <i class="fas fa-users-slash text-4xl mb-4 opacity-50"></i>
                             <p class="text-lg font-medium">No customers found</p>
                             {% if search_query %}
                             <p class="text-sm mt-1">Try adjusting your search query</p>
@@ -147,9 +138,8 @@
         </table>
     </div>
 
-    <!-- Footer/Pagination placeholder (if needed later) or just simple count -->
-    <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
-        <p class="text-xs text-center text-gray-500 uppercase tracking-wide">
+    <div class="px-6 py-4 border-t border-white/10 bg-white/5 dark:bg-black/10">
+        <p class="text-xs text-center opacity-50 uppercase tracking-wide">
             End of List
         </p>
     </div>
