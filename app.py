@@ -7,15 +7,22 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Use a secure random key for session security
+app.secret_key = os.getenv("SECRET_KEY")# Use a secure random key for session security
 
 # MongoDB connection URI from environment variable
 MONGO_URI = os.getenv("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI is not set in environment variables")
 
 # MongoDB setup
 client = MongoClient(MONGO_URI)
 db = client["customer_management"]
 collection = db["customer"]
+try:
+    client = MongoClient(MONGO_URI)
+    client.admin.command('ping')
+except Exception as e:
+    raise RuntimeError(f"MongoDB connection failed: {e}")
 
 # Load users from environment variables (You can extend this later as needed)
 users = {
@@ -62,8 +69,14 @@ def create_customer():
         name = request.form['name']
         phone = request.form['phone']
         date = request.form['date']
-        amount_received = float(request.form['amount_received'])
+        try:
+            amount_received = float(request.form['amount_received'])
+        except ValueError:
+            flash("Invalid amount received.", "danger")
+            return redirect(url_for('create_customer'))
+
         balance_amount = request.form['balance_amount']
+
         address = request.form['address']
         model = request.form['model']
 
@@ -116,8 +129,18 @@ def update_amount(customer_id):
         return redirect(url_for('login'))
 
     customer = collection.find_one({"Id": customer_id})
+    
+    if not customer:
+        flash("Customer not found.", "danger")
+        return redirect(url_for('view_all_customers'))
+    
     if request.method == 'POST':
-        new_amount = float(request.form['new_amount'])
+        try:
+            new_amount = float(request.form['new_amount'])
+        except ValueError:
+            flash("Invalid amount entered.", "danger")
+            return redirect(url_for('update_amount', customer_id=customer_id))
+
 
         # Update the Amount Received and Balance Amount
         updated_received = customer["Amount_Received"] + new_amount
@@ -138,7 +161,6 @@ def update_amount(customer_id):
     
     return render_template('update_amount.html', customer=customer)
 
-# Delete Customer Route
 @app.route('/delete_customer/<customer_id>', methods=['POST'])
 def delete_customer(customer_id):
     if 'username' not in session:
@@ -157,6 +179,10 @@ def edit_customer(customer_id):
 
     # Fetch the customer data from the database
     customer = collection.find_one({"Id": customer_id})
+    
+    if not customer:
+        flash("Customer not found.", "danger")
+        return redirect(url_for('view_all_customers'))
 
     if request.method == 'POST':
         # Only update editable fields: Name, Phone, Address, Model
