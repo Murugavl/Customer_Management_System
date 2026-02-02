@@ -26,7 +26,7 @@ except Exception as e:
 
 # Load users from environment variables (You can extend this later as needed)
 users = {
-    "velmurugan": os.getenv("USER_VELMURUGAN_PASSWORD")  # This can be customized in the .env file
+    os.getenv("USER_NAME"): os.getenv("USER_PASSWORD")  # This can be customized in the .env file
 }
 
 # Home route
