@@ -93,15 +93,3 @@ For questions or support, please contact:
 
 ---
 
-## Screenshots
-
-Include screenshots of the application in action (if available):
-
-1. **Homepage**
-   ![Homepage](/static/img/home_page.png)
-
-2. **Customers Page**
-   ![Customers](/static/img/customers_page.png)
-
----
-
