@@ -11,6 +11,7 @@
         </div>
 
         <form action="{{ url_for('edit_customer', customer_id=customer['Id']) }}" method="POST" class="space-y-5">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
             <div>
                 <label for="name" class="block text-sm font-medium mb-2 opacity-80">Full Name</label>

@@ -26,6 +26,7 @@
         </div>
 
         <form method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div>
                 <label for="new_amount" class="block text-sm font-medium mb-2 opacity-80">Amount to Add</label>
                 <div class="relative">

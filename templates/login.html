@@ -15,6 +15,7 @@
         </div>
 
         <form method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div>
                 <label for="username" class="block text-sm font-semibold mb-2 opacity-80">Username</label>
                 <div class="relative">

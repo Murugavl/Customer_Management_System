@@ -5,6 +5,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.db
+*.sqlite3
 
 # IDE/editor-specific files (e.g., VS Code, PyCharm, etc.)
 .vscode/
@@ -23,3 +24,19 @@ venv/
 ENV/
 .env
 .venv/
+
+# Logs
+*.log
+app.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Build and distribution
+dist/
+build/
+*.egg-info/
