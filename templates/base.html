@@ -121,7 +121,7 @@
         {% if messages %}
         <div class="max-w-4xl mx-auto mb-6 space-y-2">
             {% for category, message in messages %}
-            <div class="glass-effect p-4 rounded-lg flex items-center gap-3 shadow-sm border-l-4
+            <div class="flash-message glass-effect p-4 rounded-lg flex items-center gap-3 shadow-sm border-l-4
                             {% if category == 'success' %}border-green-500 text-green-700 dark:text-green-300
                             {% elif category == 'danger' or category == 'error' %}border-red-500 text-red-700 dark:text-red-300
                             {% else %}border-blue-500 text-blue-700 dark:text-blue-300{% endif %}">

@@ -5,7 +5,7 @@ from pymongo.errors import ConnectionFailure, DuplicateKeyError, PyMongoError
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 # Import configuration and utilities
@@ -179,6 +179,7 @@ def create_customer():
                 return redirect(url_for("view_all_customers"))
             
             # Create customer document with audit fields
+            now = datetime.now(timezone.utc)
             customer = {
                 "Id": customer_id,
                 "Name": name,
@@ -188,9 +189,9 @@ def create_customer():
                 "Balance_Amount": balance_amount,
                 "Address": address,
                 "Model": model,
-                "created_at": datetime.utcnow(),
+                "created_at": now,
                 "created_by": session.get('username'),
-                "updated_at": datetime.utcnow(),
+                "updated_at": now,
                 "updated_by": session.get('username')
             }
             
@@ -252,6 +253,7 @@ def view_all_customers():
             customers=customers,
             search_query=search_query,
             page=page,
+            per_page=per_page,
             total_pages=total_pages,
             total_customers=total_customers
         )
@@ -303,7 +305,7 @@ def update_amount(customer_id):
                     "$set": {
                         "Amount_Received": updated_received,
                         "Balance_Amount": updated_balance,
-                        "updated_at": datetime.utcnow(),
+                        "updated_at": datetime.now(timezone.utc),
                         "updated_by": session.get('username')
                     }
                 }
@@ -397,7 +399,7 @@ def edit_customer(customer_id):
                         "Ph.no": updated_phone,
                         "Address": updated_address,
                         "Model": updated_model,
-                        "updated_at": datetime.utcnow(),
+                        "updated_at": datetime.now(timezone.utc),
                         "updated_by": session.get('username')
                     }
                 }

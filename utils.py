@@ -2,15 +2,13 @@
 Utility functions for validation and security
 """
 import re
+from datetime import datetime
 from functools import wraps
 from flask import session, redirect, url_for, flash
 
 
 def validate_phone(phone):
-    """
-    Validate phone number format
-    Accepts formats: +91 98765 43210, 9876543210, +919876543210
-    """
+
     if not phone:
         return False
     
@@ -23,10 +21,7 @@ def validate_phone(phone):
 
 
 def validate_customer_id(customer_id):
-    """
-    Validate customer ID format
-    Should be alphanumeric, 3-20 characters
-    """
+
     if not customer_id:
         return False
     
@@ -81,10 +76,13 @@ def login_required(f):
 
 def validate_date(date_string):
     """
-    Validate date format (YYYY-MM-DD)
+    Validate date is a real calendar date in YYYY-MM-DD format.
+    Uses strptime so values like 2024-99-99 are correctly rejected.
     """
     if not date_string:
         return False
-    
-    pattern = r'^\d{4}-\d{2}-\d{2}$'
-    return bool(re.match(pattern, date_string))
+    try:
+        datetime.strptime(date_string, "%Y-%m-%d")
+        return True
+    except ValueError:
+        return False
