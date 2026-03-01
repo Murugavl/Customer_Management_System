@@ -243,8 +243,14 @@ def view_all_customers():
         total_customers = collection.count_documents(query)
         total_pages = (total_customers + per_page - 1) // per_page
         
-        # Get paginated results
-        customers = collection.find(query).skip((page - 1) * per_page).limit(per_page)
+        # Get paginated results — materialized to list so the cursor is fully
+        # consumed before rendering, and sorted for stable pagination across requests
+        customers = list(
+            collection.find(query)
+            .sort("Name", ASCENDING)
+            .skip((page - 1) * per_page)
+            .limit(per_page)
+        )
         
         logger.info(f"Viewing customers page {page}, search: '{search_query}'")
         

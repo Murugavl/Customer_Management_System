@@ -12,7 +12,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS (configured for dark mode) -->
+    <!-- Tailwind CSS via CDN — fine for development.
+         For production, replace with a purged build:
+           1. npm install -D tailwindcss
+           2. npx tailwindcss -i ./static/css/input.css -o ./static/css/tailwind.min.css --minify
+         Then swap this <script> for:
+           <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+         This reduces Tailwind from ~350 KB (full CDN) to ~5–10 KB (purged). -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
