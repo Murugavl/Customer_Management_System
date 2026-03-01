@@ -42,13 +42,14 @@ def validate_amount(amount):
 
 def validate_name(name):
     """
-    Validate name contains only letters, spaces, and common punctuation
+    Validate name is non-empty and within length limits.
+    Accepts letters (including Tamil/Unicode), spaces, digits,
+    and common punctuation — broad enough for real customer names.
     """
     if not name or len(name) < 2 or len(name) > 100:
         return False
-    
-    pattern = r'^[A-Za-z\s\.\-\']+$'
-    return bool(re.match(pattern, name))
+    # Reject only names that are entirely punctuation/symbols
+    return bool(re.search(r'\w', name, re.UNICODE))
 
 
 def sanitize_input(text):

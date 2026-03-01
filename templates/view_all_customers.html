@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block content %}
 <div class="glass-effect rounded-2xl shadow-xl overflow-hidden">
     <!-- Header & Search -->
@@ -10,7 +8,6 @@
             <h1 class="text-2xl font-bold">Customer Directory</h1>
             <p class="text-sm opacity-60">Manage and view all customer records</p>
         </div>
-
         <form action="{{ url_for('view_all_customers') }}" method="GET"
             class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div class="relative w-full sm:w-64">
@@ -39,58 +36,35 @@
             <thead class="bg-gray-50/50 dark:bg-gray-800/50">
                 <tr>
                     <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">ID</th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Name
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Phone
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">
-                        Installed</th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Received
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Balance
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Address
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Model
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-4 text-center text-xs font-semibold opacity-70 uppercase tracking-wider">Actions
-                    </th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Name</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Phone</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Installed</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Received</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Balance</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Address</th>
+                    <th scope="col" class="px-6 py-4 text-xs font-semibold opacity-70 uppercase tracking-wider">Model</th>
+                    <th scope="col" class="px-6 py-4 text-center text-xs font-semibold opacity-70 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-white/10">
                 {% for customer in customers %}
                 <tr class="hover:bg-primary/5 transition-colors duration-200">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium opacity-90">
-                        {{ customer['Id'] | upper }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">
-                        {{ customer['Name'] | upper }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
-                        {{ customer['Ph.no'] }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
-                        {{ customer['Date'] }}
-                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium opacity-90">{{ customer['Id'] | upper }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">{{ customer['Name'] | upper }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">{{ customer['Ph.no'] }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">{{ customer['Date'] }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 dark:text-green-400 font-medium">
-                        ₹{{ "%.2f" | format(customer['Amount_Received'] | float) }}
+                        &#8377;{{ "%.2f" | format(customer['Amount_Received'] | float) }}
                     </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium
-                        {% if customer['Balance_Amount']|float > 0 %} text-red-600 dark:text-red-400 {% else %} opacity-50 {% endif %}">
-                        ₹{{ "%.2f" | format(customer['Balance_Amount'] | float) }}
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium {% if customer['Balance_Amount']|float > 0 %} text-red-600 dark:text-red-400 {% else %} opacity-50 {% endif %}">
+                        &#8377;{{ "%.2f" | format(customer['Balance_Amount'] | float) }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70 max-w-xs truncate"
-                        title="{{ customer['Address'] | upper }}">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70 max-w-xs truncate" title="{{ customer['Address'] | upper }}">
                         {{ customer['Address'] | upper }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">
-                        {{ customer['Model'] | upper }}
-                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm opacity-70">{{ customer['Model'] | upper }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                         <div class="flex items-center justify-center space-x-2">
-                            <!-- WhatsApp Reminder — only shown when balance > 0 -->
                             {% if customer['Balance_Amount'] | float > 0 %}
                             {% set wa_phone = customer['Ph.no'] | replace(' ', '') | replace('-', '') | replace('+', '') %}
                             {% set wa_phone = wa_phone.lstrip('0') %}
@@ -102,8 +76,7 @@
                             {% set cname = customer['Name'] %}
                             {% set cbalance = '%.2f' | format(customer['Balance_Amount'] | float) %}
                             {% set cmodel = customer['Model'] %}
-                            <button
-                                onclick="openWhatsAppModal('{{ wa_phone_final }}', '{{ cname }}', '{{ cbalance }}', '{{ cmodel }}')"
+                            <button onclick="openWhatsAppModal('{{ wa_phone_final }}', '{{ cname }}', '{{ cbalance }}', '{{ cmodel }}')"
                                 class="text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 p-2 rounded-lg transition-colors"
                                 title="Send WhatsApp Reminder">
                                 <i class="fab fa-whatsapp text-lg"></i>
@@ -111,22 +84,16 @@
                             {% else %}
                             <span class="p-2 w-8 inline-block"></span>
                             {% endif %}
-
-                            <!-- Update Amount -->
                             <a href="{{ url_for('update_amount', customer_id=customer['Id']) }}"
                                 class="text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 p-2 rounded-lg transition-colors"
                                 title="Update Payment">
                                 <i class="fas fa-money-bill-wave"></i>
                             </a>
-
-                            <!-- Edit -->
                             <a href="{{ url_for('edit_customer', customer_id=customer['Id']) }}"
                                 class="text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 p-2 rounded-lg transition-colors"
                                 title="Edit Details">
                                 <i class="fas fa-edit"></i>
                             </a>
-
-                            <!-- Delete -->
                             <form action="{{ url_for('delete_customer', customer_id=customer['Id']) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this customer?');"
                                 class="inline-block">
@@ -150,8 +117,7 @@
                             <p class="text-sm mt-1">Try adjusting your search query</p>
                             {% else %}
                             <p class="text-sm mt-1">Get started by adding a new customer</p>
-                            <a href="{{ url_for('create_customer') }}" class="mt-4 text-primary hover:underline">Add
-                                Customer</a>
+                            <a href="{{ url_for('create_customer') }}" class="mt-4 text-primary hover:underline">Add Customer</a>
                             {% endif %}
                         </div>
                     </td>
@@ -164,20 +130,15 @@
     <!-- Pagination -->
     <div class="px-6 py-4 border-t border-white/10 bg-white/5 dark:bg-black/10">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Results Info -->
             <div class="text-sm opacity-70">
                 {% if total_customers > 0 %}
-                Showing {{ ((page - 1) * per_page) + 1 }} to {{ [page * per_page, total_customers]|min }} of {{ total_customers }}
-                customers
+                Showing {{ ((page - 1) * per_page) + 1 }} to {{ [page * per_page, total_customers]|min }} of {{ total_customers }} customers
                 {% else %}
                 No customers found
                 {% endif %}
             </div>
-
-            <!-- Pagination Controls -->
             {% if total_pages > 1 %}
             <div class="flex items-center gap-2">
-                <!-- Previous Button -->
                 {% if page > 1 %}
                 <a href="{{ url_for('view_all_customers', page=page-1, search=search_query) }}"
                     class="px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 transition-colors">
@@ -188,55 +149,45 @@
                     <i class="fas fa-chevron-left"></i>
                 </span>
                 {% endif %}
-
-                <!-- Page Numbers -->
                 <div class="flex items-center gap-1">
                     {% for p in range(1, total_pages + 1) %}
                     {% if p == page %}
                     <span class="px-3 py-2 rounded-lg bg-primary text-white font-medium">{{ p }}</span>
-                    {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %} <a
-                        href="{{ url_for('view_all_customers', page=p, search=search_query) }}"
+                    {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+                    <a href="{{ url_for('view_all_customers', page=p, search=search_query) }}"
                         class="px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">{{ p }}</a>
-                        {% elif p == page - 3 or p == page + 3 %}
-                        <span class="px-2 opacity-50">...</span>
-                        {% endif %}
-                        {% endfor %}
+                    {% elif p == page - 3 or p == page + 3 %}
+                    <span class="px-2 opacity-50">...</span>
+                    {% endif %}
+                    {% endfor %}
                 </div>
-
-                <!-- Next Button -->
-                {% if page < total_pages %} <a
-                    href="{{ url_for('view_all_customers', page=page+1, search=search_query) }}"
+                {% if page < total_pages %}
+                <a href="{{ url_for('view_all_customers', page=page+1, search=search_query) }}"
                     class="px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 transition-colors">
                     <i class="fas fa-chevron-right"></i>
-                    </a>
-                    {% else %}
-                    <span class="px-3 py-2 rounded-lg border border-white/10 opacity-30 cursor-not-allowed">
-                        <i class="fas fa-chevron-right"></i>
-                    </span>
-                    {% endif %}
+                </a>
+                {% else %}
+                <span class="px-3 py-2 rounded-lg border border-white/10 opacity-30 cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                </span>
+                {% endif %}
             </div>
             {% endif %}
         </div>
     </div>
 </div>
+
 <!-- WhatsApp Language Picker Modal -->
 <div id="wa-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-    <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeWhatsAppModal()"></div>
-
-    <!-- Modal Card -->
     <div class="relative glass-effect rounded-2xl shadow-2xl p-8 w-full max-w-sm mx-4 z-10">
-        <!-- WhatsApp icon -->
         <div class="flex justify-center mb-4">
             <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
                 <i class="fab fa-whatsapp text-3xl text-emerald-600 dark:text-emerald-400"></i>
             </div>
         </div>
-
         <h2 class="text-xl font-bold text-center mb-1">Send Payment Reminder</h2>
         <p class="text-sm opacity-60 text-center mb-6">Choose the language for the WhatsApp message</p>
-
-        <!-- Customer info summary -->
         <div class="bg-white/10 dark:bg-black/20 rounded-xl px-4 py-3 mb-6 text-sm space-y-1">
             <div class="flex justify-between">
                 <span class="opacity-60">Customer</span>
@@ -251,22 +202,18 @@
                 <span class="font-semibold" id="modal-model"></span>
             </div>
         </div>
-
-        <!-- Language Buttons -->
         <div class="grid grid-cols-2 gap-3">
             <button onclick="sendWhatsApp('en')"
                 class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500/10 transition-all group">
-                <span class="text-2xl">🇬🇧</span>
+                <span class="font-bold text-lg">EN</span>
                 <span class="font-semibold text-sm group-hover:text-emerald-500 transition-colors">English</span>
             </button>
             <button onclick="sendWhatsApp('ta')"
                 class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500/10 transition-all group">
-                <span class="text-2xl">🇮🇳</span>
-                <span class="font-semibold text-sm group-hover:text-emerald-500 transition-colors">தமிழ்</span>
+                <span class="font-bold text-lg">TA</span>
+                <span class="font-semibold text-sm group-hover:text-emerald-500 transition-colors">Tamil</span>
             </button>
         </div>
-
-        <!-- Cancel -->
         <button onclick="closeWhatsAppModal()"
             class="mt-4 w-full text-sm opacity-50 hover:opacity-100 transition-opacity py-2">
             Cancel
@@ -275,14 +222,13 @@
 </div>
 
 <script>
-    // Holds current customer data while modal is open
     let _wa = {};
 
     function openWhatsAppModal(phone, name, balance, model) {
         _wa = { phone, name, balance, model };
-        document.getElementById('modal-name').textContent  = name;
-        document.getElementById('modal-balance').textContent = '₹' + balance;
-        document.getElementById('modal-model').textContent = model || '—';
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-balance').textContent = '\u20B9' + balance;
+        document.getElementById('modal-model').textContent = model || '-';
         document.getElementById('wa-modal').classList.remove('hidden');
     }
 
@@ -292,25 +238,24 @@
 
     function sendWhatsApp(lang) {
         const { phone, name, balance, model } = _wa;
-
+        const rupee = '\u20B9';
         let message;
         if (lang === 'en') {
             message =
-                `Hello ${name},\n` +
-                `This is a friendly payment reminder from *Ponsri Enterprises*.\n` +
-                `You have a pending balance of *₹${balance}* for your *${model}*.\n` +
-                `Kindly clear the dues at your earliest convenience.\n` +
-                `Thank you!`;
+                'Hello ' + name + ',\n' +
+                'This is a friendly payment reminder from *Ponsri Enterprises*.\n' +
+                'You have a pending balance of *' + rupee + balance + '* for your *' + model + '*.\n' +
+                'Kindly clear the dues at your earliest convenience.\n' +
+                'Thank you!';
         } else {
             message =
-                `வணக்கம் ${name},\n` +
-                `இது Ponsri Enterprises சார்பாக அனுப்பப்படும் கட்டண நினைவூட்டல்.\n` +
-                `உங்கள் *${model}* க்காக *₹${balance}* நிலுவைத் தொகை உள்ளது.\n` +
-                `விரைவில் அல்லது தோது பார்த்து உங்கள் தொகையை செலுத்துமாறு தாழ்மையுடன் கேட்டுக்கொள்கிறேன்.\n` +
-                `நன்றி!`;
+                '\u0BB5\u0BA3\u0B95\u0BCD\u0B95\u0BAE\u0BCD ' + name + ',\n' +
+                '\u0B87\u0BA4\u0BC1 Ponsri Enterprises \u0B9A\u0BBE\u0BB0\u0BCD\u0BAA\u0BBE\u0B95 \u0A85\u0BA9\u0BC1\u0BAA\u0BCD\u0BAA\u0BAA\u0BCD\u0BAA\u0B9F\u0BC1\u0BAE\u0BCD \u0B95\u0B9F\u0BCD\u0B9F\u0BA3 \u0BA8\u0BBF\u0BA9\u0BC8\u0BB5\u0BC2\u0B9F\u0BCD\u0B9F\u0BB2\u0BCD.\n' +
+                '\u0B89\u0B99\u0BCD\u0B95\u0BB3\u0BCD *' + model + '* \u0B95\u0BCD\u0B95\u0BBE\u0B95 *' + rupee + balance + '* \u0BA8\u0BBF\u0BB2\u0BC1\u0BB5\u0BC8\u0BA4\u0BCD \u0BA4\u0BCA\u0B95\u0BC8 \u0B89\u0BB3\u0BCD\u0BB3\u0BA4\u0BC1.\n' +
+                '\u0BB5\u0BBF\u0BB0\u0BC8\u0BB5\u0BBF\u0BB2\u0BCD \u0A85\u0BB2\u0BCD\u0BB2\u0BA4\u0BC1 \u0BA4\u0BC7\u0BA4\u0BC1 \u0BAA\u0BBE\u0BB0\u0BCD\u0BA4\u0BCD\u0BA4\u0BC1 \u0B89\u0B99\u0BCD\u0B95\u0BB3\u0BCD \u0BA4\u0BCA\u0B95\u0BC8\u0BAF\u0BC8 \u0B9A\u0BC6\u0BB2\u0BC1\u0BA4\u0BCD\u0BA4\u0BC1\u0BAE\u0BBE\u0BB1\u0BC1 \u0BA4\u0BBE\u0BB4\u0BCD\u0BAE\u0BC8\u0BAF\u0BC1\u0B9F\u0BA9\u0BCD \u0B95\u0BC7\u0B9F\u0BCD\u0B9F\u0BC1\u0B95\u0BCD\u0B95\u0BCA\u0BB3\u0BCD\u0B95\u0BBF\u0BB1\u0BC7\u0BA9\u0BCD.\n' +
+                '\u0BA8\u0BA9\u0BCD\u0BB1\u0BBF!';
         }
-
-        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
         window.open(url, '_blank');
         closeWhatsAppModal();
     }

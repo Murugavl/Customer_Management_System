@@ -410,22 +410,22 @@ def edit_customer(customer_id):
                 for error in validation_errors:
                     flash(error, "danger")
                 logger.warning(f"Validation errors in edit_customer: {validation_errors}")
-                return redirect(url_for('edit_customer', customer_id=customer_id))
+                # Re-render the form directly so flash errors are visible
+                # (redirect would drop the flash messages before they're displayed)
+                return render_template('edit_customer.html', customer=customer)
             
-            # Update the customer record
-            collection.update_one(
-                {"Id": customer_id},
-                {
-                    "$set": {
-                        "Name": updated_name,
-                        "Ph.no": updated_phone,
-                        "Address": updated_address,
-                        "Model": updated_model,
-                        "updated_at": datetime.now(timezone.utc),
-                        "updated_by": session.get('username')
-                    }
-                }
-            )
+            # Update the customer record using replace_one.
+            # $set cannot update fields whose names contain dots (like "Ph.no")
+            # because MongoDB interprets dots as nested path notation.
+            # replace_one fetches the full document and replaces it, which
+            # correctly handles literal dot-in-fieldname keys.
+            customer["Name"] = updated_name
+            customer["Ph.no"] = updated_phone
+            customer["Address"] = updated_address
+            customer["Model"] = updated_model
+            customer["updated_at"] = datetime.now(timezone.utc)
+            customer["updated_by"] = session.get('username')
+            collection.replace_one({"Id": customer_id}, customer)
             
             flash(f"Customer {updated_name} has been updated.", "success")
             logger.info(f"Customer {customer_id} updated by {session.get('username')}")
