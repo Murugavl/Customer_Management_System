@@ -56,8 +56,10 @@ Create a .env file in the project root:
 MONGO_URI=your_mongodb_connection_string
 SECRET_KEY=your_secret_key
 USER_NAME=your_user_name
-USER_PASSWORD=your_login_password
+USER_PASSWORD_HASH=your_hashed_password
 ```
+> Generate your hash with:
+> `python -c "from werkzeug.security import generate_password_hash; print(generate_password_hash('your_password'))"`
 ### 5️⃣ Run the Application
 ```
 python app.py
@@ -89,7 +91,7 @@ http://localhost:5000
 #### The image is publicly available on Docker Hub.
 ```bash
 docker pull murugavl/cms-app:v1
-docker run -p 5000:5000 --env-file .env murugavl/ms-app:v1
+docker run -p 5000:5000 --env-file .env murugavl/cms-app:v1
 ```
 ## 🧑‍💻 Usage
 - Login using configured credentials.

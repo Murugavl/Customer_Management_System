@@ -190,13 +190,8 @@ def create_customer():
             amount_received = float(amount_received)
             balance_amount = float(balance_amount)
             
-            # Check if customer ID already exists
-            existing_customer = collection.find_one({"Id": customer_id})
-            if existing_customer:
-                flash(f"Customer ID {customer_id} already exists.", "danger")
-                logger.warning(f"Attempt to create duplicate customer ID: {customer_id}")
-                return redirect(url_for("view_all_customers"))
-            
+            # Note: duplicate ID is caught authoritatively by the DuplicateKeyError
+            # handler below (via the unique MongoDB index). No pre-check needed.
             # Create customer document with audit fields
             now = datetime.now(timezone.utc)
             customer = {
