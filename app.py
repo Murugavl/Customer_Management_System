@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_wtf.csrf import CSRFProtect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from pymongo import MongoClient, ASCENDING
 from pymongo.errors import ConnectionFailure, DuplicateKeyError, PyMongoError
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import re
 import logging
 from datetime import datetime, timezone
 from dotenv import load_dotenv
@@ -28,14 +31,26 @@ app.config.from_object(config[env])
 # Initialize CSRF protection
 csrf = CSRFProtect(app)
 
+# Initialize rate limiter (guards /login against brute-force attacks)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=[],          # no global limit — only apply where decorated
+    storage_uri="memory://"
+)
+
 # Configure logging
+# In production/Docker, log only to stdout so container orchestrators
+# (Docker, Kubernetes) capture logs natively — no file needed or wanted.
+# In development, also write to app.log for easy local inspection.
+_log_handlers = [logging.StreamHandler()]
+if app.config['DEBUG']:
+    _log_handlers.append(logging.FileHandler('app.log'))
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler()
-    ]
+    handlers=_log_handlers
 )
 logger = logging.getLogger(__name__)
 
@@ -67,10 +82,13 @@ except Exception as e:
     logger.error(f"Unexpected error during MongoDB setup: {e}")
     raise RuntimeError(f"Database setup failed: {e}")
 
-# Load users from environment variables (temporary solution)
-# TODO: Move to database with proper user management
+# Build the users table from environment.
+# Preferred: set USER_PASSWORD_HASH to a pre-hashed value so the plaintext
+# password never enters the process. Fall back to hashing USER_PASSWORD if
+# only the plaintext is provided (legacy / first-run convenience).
+_pw_hash = app.config.get('USER_PASSWORD_HASH') or generate_password_hash(app.config['USER_PASSWORD'])
 users = {
-    app.config['USER_NAME']: generate_password_hash(app.config['USER_PASSWORD'])
+    app.config['USER_NAME']: _pw_hash
 }
 
 
@@ -84,6 +102,7 @@ def home():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("10 per minute; 50 per hour")
 def login():
     """Login route with password hashing"""
     if request.method == 'POST':
@@ -229,13 +248,15 @@ def view_all_customers():
         # Build query
         query = {}
         if search_query:
-            # Search across multiple fields
+            # Escape user input before inserting into $regex to prevent
+            # ReDoS via crafted patterns like (a+)+ causing catastrophic backtracking
+            escaped = re.escape(search_query)
             query = {
                 "$or": [
-                    {"Name": {"$regex": search_query, "$options": "i"}},
-                    {"Id": {"$regex": search_query, "$options": "i"}},
-                    {"Ph.no": {"$regex": search_query, "$options": "i"}},
-                    {"Model": {"$regex": search_query, "$options": "i"}}
+                    {"Name": {"$regex": escaped, "$options": "i"}},
+                    {"Id": {"$regex": escaped, "$options": "i"}},
+                    {"Ph.no": {"$regex": escaped, "$options": "i"}},
+                    {"Model": {"$regex": escaped, "$options": "i"}}
                 ]
             }
         

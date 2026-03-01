@@ -37,7 +37,11 @@ class Config:
     
     # User Credentials (temporary - will move to database later)
     USER_NAME = os.getenv("USER_NAME")
-    USER_PASSWORD = os.getenv("USER_PASSWORD")
+    # Preferred: store only the hash — generate with:
+    #   python -c "from werkzeug.security import generate_password_hash; print(generate_password_hash('your_password'))"
+    # then set USER_PASSWORD_HASH in .env and remove USER_PASSWORD entirely.
+    USER_PASSWORD_HASH = os.getenv("USER_PASSWORD_HASH")   # preferred
+    USER_PASSWORD = os.getenv("USER_PASSWORD")             # legacy fallback
 
 
 class DevelopmentConfig(Config):
