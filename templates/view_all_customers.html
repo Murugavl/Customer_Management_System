@@ -90,6 +90,28 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                         <div class="flex items-center justify-center space-x-2">
+                            <!-- WhatsApp Reminder — only shown when balance > 0 -->
+                            {% if customer['Balance_Amount'] | float > 0 %}
+                            {% set wa_phone = customer['Ph.no'] | replace(' ', '') | replace('-', '') | replace('+', '') %}
+                            {% set wa_phone = wa_phone.lstrip('0') %}
+                            {% if wa_phone.startswith('91') and wa_phone | length == 12 %}
+                                {% set wa_phone_final = wa_phone %}
+                            {% else %}
+                                {% set wa_phone_final = '91' ~ wa_phone %}
+                            {% endif %}
+                            {% set cname = customer['Name'] %}
+                            {% set cbalance = '%.2f' | format(customer['Balance_Amount'] | float) %}
+                            {% set cmodel = customer['Model'] %}
+                            <button
+                                onclick="openWhatsAppModal('{{ wa_phone_final }}', '{{ cname }}', '{{ cbalance }}', '{{ cmodel }}')"
+                                class="text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 p-2 rounded-lg transition-colors"
+                                title="Send WhatsApp Reminder">
+                                <i class="fab fa-whatsapp text-lg"></i>
+                            </button>
+                            {% else %}
+                            <span class="p-2 w-8 inline-block"></span>
+                            {% endif %}
+
                             <!-- Update Amount -->
                             <a href="{{ url_for('update_amount', customer_id=customer['Id']) }}"
                                 class="text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 p-2 rounded-lg transition-colors"
@@ -197,4 +219,100 @@
         </div>
     </div>
 </div>
+<!-- WhatsApp Language Picker Modal -->
+<div id="wa-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeWhatsAppModal()"></div>
+
+    <!-- Modal Card -->
+    <div class="relative glass-effect rounded-2xl shadow-2xl p-8 w-full max-w-sm mx-4 z-10">
+        <!-- WhatsApp icon -->
+        <div class="flex justify-center mb-4">
+            <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                <i class="fab fa-whatsapp text-3xl text-emerald-600 dark:text-emerald-400"></i>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-center mb-1">Send Payment Reminder</h2>
+        <p class="text-sm opacity-60 text-center mb-6">Choose the language for the WhatsApp message</p>
+
+        <!-- Customer info summary -->
+        <div class="bg-white/10 dark:bg-black/20 rounded-xl px-4 py-3 mb-6 text-sm space-y-1">
+            <div class="flex justify-between">
+                <span class="opacity-60">Customer</span>
+                <span class="font-semibold" id="modal-name"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="opacity-60">Balance Due</span>
+                <span class="font-semibold text-red-500" id="modal-balance"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="opacity-60">Model</span>
+                <span class="font-semibold" id="modal-model"></span>
+            </div>
+        </div>
+
+        <!-- Language Buttons -->
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="sendWhatsApp('en')"
+                class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500/10 transition-all group">
+                <span class="text-2xl">🇬🇧</span>
+                <span class="font-semibold text-sm group-hover:text-emerald-500 transition-colors">English</span>
+            </button>
+            <button onclick="sendWhatsApp('ta')"
+                class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500/10 transition-all group">
+                <span class="text-2xl">🇮🇳</span>
+                <span class="font-semibold text-sm group-hover:text-emerald-500 transition-colors">தமிழ்</span>
+            </button>
+        </div>
+
+        <!-- Cancel -->
+        <button onclick="closeWhatsAppModal()"
+            class="mt-4 w-full text-sm opacity-50 hover:opacity-100 transition-opacity py-2">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<script>
+    // Holds current customer data while modal is open
+    let _wa = {};
+
+    function openWhatsAppModal(phone, name, balance, model) {
+        _wa = { phone, name, balance, model };
+        document.getElementById('modal-name').textContent  = name;
+        document.getElementById('modal-balance').textContent = '₹' + balance;
+        document.getElementById('modal-model').textContent = model || '—';
+        document.getElementById('wa-modal').classList.remove('hidden');
+    }
+
+    function closeWhatsAppModal() {
+        document.getElementById('wa-modal').classList.add('hidden');
+    }
+
+    function sendWhatsApp(lang) {
+        const { phone, name, balance, model } = _wa;
+
+        let message;
+        if (lang === 'en') {
+            message =
+                `Hello ${name},\n` +
+                `This is a friendly payment reminder from *Ponsri Enterprises*.\n` +
+                `You have a pending balance of *₹${balance}* for your *${model}*.\n` +
+                `Kindly clear the dues at your earliest convenience.\n` +
+                `Thank you!`;
+        } else {
+            message =
+                `வணக்கம் ${name},\n` +
+                `இது Ponsri Enterprises சார்பாக அனுப்பப்படும் கட்டண நினைவூட்டல்.\n` +
+                `உங்கள் *${model}* க்காக *₹${balance}* நிலுவைத் தொகை உள்ளது.\n` +
+                `விரைவில் அல்லது தோது பார்த்து உங்கள் தொகையை செலுத்துமாறு தாழ்மையுடன் கேட்டுக்கொள்கிறேன்.\n` +
+                `நன்றி!`;
+        }
+
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        closeWhatsAppModal();
+    }
+</script>
 {% endblock %}
